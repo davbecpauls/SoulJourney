@@ -1,5 +1,5 @@
 import { Navigation } from "@/components/navigation";
-import { HeroSection } from "@/components/hero-section";
+import { CosmicHero } from "@/components/cosmic-hero";
 import { LearningPaths } from "@/components/learning-paths";
 import { AcademyStructure } from "@/components/academy-structure";
 import { FeaturesSection } from "@/components/features-section";
@@ -9,9 +9,10 @@ import { Footer } from "@/components/footer";
 
 export default function Home() {
   return (
-    <div className="min-h-screen mystical-background text-white">
+    <div className="min-h-screen mystical-background text-white relative">
+      <div className="cosmic-particles"></div>
       <Navigation />
-      <HeroSection />
+      <CosmicHero />
       <LearningPaths />
       <AcademyStructure />
       <FeaturesSection />

@@ -46,14 +46,15 @@ export default function Dashboard() {
   const overallProgress = totalLessons > 0 ? (completedLessons / totalLessons) * 100 : 0;
 
   return (
-    <div className="min-h-screen mystical-background text-white">
+    <div className="min-h-screen mystical-background text-white relative">
+      <div className="cosmic-particles"></div>
       <Navigation />
       
       <div className="pt-20 pb-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="mb-8">
-            <h1 className="font-cinzel text-4xl font-bold mb-4 text-amber-100">
+            <h1 className="font-cinzel text-4xl font-bold mb-4 text-golden">
               {theme === 'child' ? 'Your Magical Journey' : 'Your Sacred Journey'}
             </h1>
             <p className="text-white/70 text-lg">

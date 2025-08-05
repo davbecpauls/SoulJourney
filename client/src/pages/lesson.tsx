@@ -153,7 +153,8 @@ export default function LessonPage() {
   const isCompleted = userProgress?.completed || false;
 
   return (
-    <div className="min-h-screen mystical-background text-white">
+    <div className="min-h-screen mystical-background text-white relative">
+      <div className="cosmic-particles"></div>
       <Navigation />
       
       <div className="pt-20 pb-12">
@@ -172,7 +173,7 @@ export default function LessonPage() {
               </Badge>
             </div>
             
-            <h1 className="font-cinzel text-4xl font-bold mb-2 text-amber-100">{lesson.title}</h1>
+            <h1 className="font-cinzel text-4xl font-bold mb-2 text-golden">{lesson.title}</h1>
             <p className="text-white/70 text-lg mb-4">{lesson.description}</p>
             
             {/* Progress Bar */}
