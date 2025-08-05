@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jakintza Ruha: Academy of Remembrance</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'cinzel': ['Cinzel', 'serif'],
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        cosmic: {
+                            50: '#EDE9FE',
+                            100: '#DDD6FE', 
+                            500: '#8B5CF6',
+                            700: '#6D28D9',
+                            900: '#4C1D95'
+                        },
+                        sacred: {
+                            50: '#FEF3C7',
+                            100: '#FDE68A',
+                            500: '#F59E0B',
+                            700: '#D97706',
+                            900: '#92400E'
+                        },
+                        ethereal: {
+                            500: '#3B82F6',
+                            700: '#1D4ED8',
+                            900: '#1E3A8A'
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'sparkle': 'sparkle 3s linear infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' }
+                        },
+                        glow: {
+                            'from': { boxShadow: '0 0 20px rgba(139, 92, 246, 0.3)' },
+                            'to': { boxShadow: '0 0 30px rgba(139, 92, 246, 0.6)' }
+                        },
+                        sparkle: {
+                            '0%, 100%': { opacity: '0', transform: 'scale(0)' },
+                            '50%': { opacity: '1', transform: 'scale(1)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-inter bg-gradient-to-br from-cosmic-900 via-purple-900 to-indigo-900 text-white" id="main-body">
+    
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-black/20 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-4">
+                    <div class="text-2xl font-cinzel font-bold text-sacred-100">
+                        <i class="fas fa-ankh mr-2 text-sacred-500"></i>
+                        Jakintza Ruha
+                    </div>
+                </div>
+                
+                <!-- Theme Switcher -->
+                <div class="flex items-center space-x-6">
+                    <div class="bg-white/10 rounded-full p-1 flex items-center">
+                        <button id="childTheme" class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 bg-pink-500 text-white">
+                            <i class="fas fa-magic mr-2"></i>Children
+                        </button>
+                        <button id="adultTheme" class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 text-white/70 hover:text-white">
+                            <i class="fas fa-om mr-2"></i>Adults
+                        </button>
+                    </div>
+                    <button class="bg-sacred-500 hover:bg-sacred-600 px-6 py-2 rounded-full font-medium transition-colors">
+                        Enter Academy
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <!-- Mystical forest background with morning mist and ethereal lighting -->
+        <div class="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30" 
+             style="background-image: url('https://images.unsplash.com/photo-1518837695005-2083093ee35b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080')"></div>
+        
+        <!-- Floating mystical elements -->
+        <div class="absolute inset-0">
+            <div class="animate-float absolute top-20 left-10 text-sacred-300 text-4xl opacity-50">✦</div>
+            <div class="animate-float absolute top-40 right-20 text-pink-300 text-3xl opacity-40" style="animation-delay: 1s;">❋</div>
+            <div class="animate-float absolute bottom-40 left-20 text-ethereal-300 text-5xl opacity-30" style="animation-delay: 2s;">◈</div>
+            <div class="animate-float absolute bottom-20 right-10 text-sacred-400 text-3xl opacity-50" style="animation-delay: 0.5s;">✧</div>
+        </div>
+
+        <div class="relative z-10 text-center max-w-4xl mx-auto px-4">
+            <div class="animate-glow mb-8">
+                <h1 class="font-cinzel text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-sacred-200 via-pink-200 to-ethereal-200 bg-clip-text text-transparent">
+                    Academy of Remembrance
+                </h1>
+            </div>
+            
+            <p class="text-xl md:text-2xl text-white/80 mb-12 leading-relaxed">
+                Where souls remember their truth through sacred learning and mystical discovery
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+                <button class="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
+                    <i class="fas fa-dragon mr-3"></i>Begin Children's Quest
+                </button>
+                <button class="bg-gradient-to-r from-cosmic-700 to-sacred-700 hover:from-cosmic-800 hover:to-sacred-800 px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
+                    <i class="fas fa-lotus mr-3"></i>Start Sacred Journey
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Learning Paths Section -->
+    <section class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-cinzel text-4xl md:text-5xl font-bold mb-6 text-sacred-100">
+                    Choose Your Path of Remembrance
+                </h2>
+                <p class="text-xl text-white/70 max-w-3xl mx-auto">
+                    Two sacred journeys await - one filled with magical quests for young souls, 
+                    another offering deep spiritual wisdom for mature seekers
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12">
+                <!-- Children's Path -->
+                <div class="group relative">
+                    <!-- Fantasy adventure scene with magical creatures and enchanted forest -->
+                    <div class="absolute inset-0 bg-cover bg-center rounded-3xl opacity-20" 
+                         style="background-image: url('https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600')"></div>
+                    
+                    <div class="relative bg-gradient-to-br from-pink-900/40 to-purple-900/40 backdrop-blur-sm rounded-3xl p-8 border border-pink-500/30 hover:border-pink-400/50 transition-all duration-500 group-hover:transform group-hover:-translate-y-2">
+                        <div class="text-center mb-8">
+                            <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full mb-6 animate-glow">
+                                <i class="fas fa-hat-wizard text-3xl text-white"></i>
+                            </div>
+                            <h3 class="font-cinzel text-3xl font-bold text-pink-200 mb-4">
+                                Mystical Quests for Young Souls
+                            </h3>
+                            <p class="text-white/70 text-lg">
+                                Embark on magical adventures through enchanted realms, collecting spells and unlocking ancient wisdom
+                            </p>
+                        </div>
+
+                        <!-- Quest Features -->
+                        <div class="space-y-4 mb-8">
+                            <div class="flex items-center space-x-3">
+                                <i class="fas fa-gem text-pink-400"></i>
+                                <span>Elemental Challenges & Magical Rewards</span>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <i class="fas fa-scroll text-purple-400"></i>
+                                <span>Interactive Storytelling Adventures</span>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <i class="fas fa-medal text-yellow-400"></i>
+                                <span>Achievement System & Unlockable Spells</span>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <i class="fas fa-users text-pink-400"></i>
+                                <span>Character Companions & Guides</span>
+                            </div>
+                        </div>
+
+                        <!-- Progress Example -->
+                        <div class="bg-black/20 rounded-xl p-4 mb-6">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm text-white/70">Quest Progress</span>
+                                <span class="text-sm text-pink-300">Level 3 Wizard</span>
+                            </div>
+                            <div class="w-full bg-white/10 rounded-full h-3 mb-2">
+                                <div class="bg-gradient-to-r from-pink-500 to-purple-500 h-3 rounded-full" style="width: 65%"></div>
+                            </div>
+                            <div class="flex justify-between text-xs text-white/60">
+                                <span>65% Complete</span>
+                                <span>🌟 Next: Fire Element Mastery</span>
+                            </div>
+                        </div>
+
+                        <button class="w-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105">
+                            Start Mystical Journey
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Adult Path -->
+                <div class="group relative">
+                    <!-- Serene meditation space with candles and sacred geometry -->
+                    <div class="absolute inset-0 bg-cover bg-center rounded-3xl opacity-20" 
+                         style="background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600')"></div>
+                    
+                    <div class="relative bg-gradient-to-br from-cosmic-900/40 to-sacred-900/40 backdrop-blur-sm rounded-3xl p-8 border border-sacred-500/30 hover:border-sacred-400/50 transition-all duration-500 group-hover:transform group-hover:-translate-y-2">
+                        <div class="text-center mb-8">
+                            <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-cosmic-700 to-sacred-600 rounded-full mb-6 animate-glow">
+                                <i class="fas fa-lotus text-3xl text-white"></i>
+                            </div>
+                            <h3 class="font-cinzel text-3xl font-bold text-sacred-200 mb-4">
+                                Sacred Journey of Remembrance
+                            </h3>
+                            <p class="text-white/70 text-lg">
+                                Rediscover your soul's truth through guided meditation, sacred wisdom, and transformative practices
+                            </p>
+                        </div>
+
+                        <!-- Journey Features -->
+                        <div class="space-y-4 mb-8">
+                            <div class="flex items-center space-x-3">
+                                <i class="fas fa-book-open text-sacred-400"></i>
+                                <span>Interactive Sacred Texts & Wisdom</span>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <i class="fas fa-feather-alt text-cosmic-400"></i>
+                                <span>Soul Journaling & Reflection Tools</span>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <i class="fas fa-download text-ethereal-400"></i>
+                                <span>Guided Meditations & Resources</span>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <i class="fas fa-praying-hands text-sacred-400"></i>
+                                <span>Virtual Altar Building & Rituals</span>
+                            </div>
+                        </div>
+
+                        <!-- Progress Example -->
+                        <div class="bg-black/20 rounded-xl p-4 mb-6">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm text-white/70">Sacred Progress</span>
+                                <span class="text-sm text-sacred-300">Seeker of Truth</span>
+                            </div>
+                            <div class="w-full bg-white/10 rounded-full h-3 mb-2">
+                                <div class="bg-gradient-to-r from-cosmic-600 to-sacred-500 h-3 rounded-full" style="width: 40%"></div>
+                            </div>
+                            <div class="flex justify-between text-xs text-white/60">
+                                <span>40% Complete</span>
+                                <span>🕉️ Next: Inner Wisdom Module</span>
+                            </div>
+                        </div>
+
+                        <button class="w-full bg-gradient-to-r from-cosmic-700 to-sacred-600 hover:from-cosmic-800 hover:to-sacred-700 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105">
+                            Begin Sacred Path
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Academy Structure Section -->
+    <section class="py-20 bg-black/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-cinzel text-4xl md:text-5xl font-bold mb-6 text-sacred-100">
+                    Academy Structure
+                </h2>
+                <p class="text-xl text-white/70 max-w-3xl mx-auto">
+                    Our curriculum is organized into mystical realms, each containing focused modules and immersive lessons
+                </p>
+            </div>
+
+            <!-- Structure Visualization -->
+            <div class="grid lg:grid-cols-3 gap-8 mb-16">
+                <!-- Realms -->
+                <div class="text-center group">
+                    <div class="relative inline-block mb-6">
+                        <div class="w-24 h-24 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center mb-4 mx-auto animate-glow group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-globe-americas text-3xl text-white"></i>
+                        </div>
+                        <div class="absolute -top-2 -right-2 w-8 h-8 bg-sacred-500 rounded-full flex items-center justify-center text-sm font-bold">1</div>
+                    </div>
+                    <h3 class="font-cinzel text-2xl font-bold text-purple-200 mb-4">Mystical Realms</h3>
+                    <p class="text-white/70">
+                        Overarching domains of knowledge - Earth, Water, Fire, Air, and Spirit realms each offering unique wisdom paths
+                    </p>
+                </div>
+
+                <!-- Modules -->
+                <div class="text-center group">
+                    <div class="relative inline-block mb-6">
+                        <div class="w-24 h-24 bg-gradient-to-br from-cosmic-600 to-ethereal-600 rounded-full flex items-center justify-center mb-4 mx-auto animate-glow group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-layer-group text-3xl text-white"></i>
+                        </div>
+                        <div class="absolute -top-2 -right-2 w-8 h-8 bg-sacred-500 rounded-full flex items-center justify-center text-sm font-bold">2</div>
+                    </div>
+                    <h3 class="font-cinzel text-2xl font-bold text-cosmic-200 mb-4">Sacred Modules</h3>
+                    <p class="text-white/70">
+                        Focused learning sequences within each realm - combining theory, practice, and experiential wisdom
+                    </p>
+                </div>
+
+                <!-- Lessons -->
+                <div class="text-center group">
+                    <div class="relative inline-block mb-6">
+                        <div class="w-24 h-24 bg-gradient-to-br from-sacred-600 to-yellow-600 rounded-full flex items-center justify-center mb-4 mx-auto animate-glow group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-scroll text-3xl text-white"></i>
+                        </div>
+                        <div class="absolute -top-2 -right-2 w-8 h-8 bg-sacred-500 rounded-full flex items-center justify-center text-sm font-bold">3</div>
+                    </div>
+                    <h3 class="font-cinzel text-2xl font-bold text-sacred-200 mb-4">Living Lessons</h3>
+                    <p class="text-white/70">
+                        Individual learning experiences with multimedia content, interactive elements, and personal reflection
+                    </p>
+                </div>
+            </div>
+
+            <!-- Example Realm Structure -->
+            <div class="bg-gradient-to-r from-cosmic-900/50 to-purple-900/50 rounded-3xl p-8 backdrop-blur-sm border border-cosmic-500/30">
+                <h3 class="font-cinzel text-2xl font-bold text-center mb-8 text-sacred-200">
+                    <i class="fas fa-seedling mr-3 text-green-400"></i>
+                    Example: Earth Realm Structure
+                </h3>
+                
+                <div class="grid md:grid-cols-3 gap-6">
+                    <!-- Module 1 -->
+                    <div class="bg-black/20 rounded-xl p-6 border border-green-500/20">
+                        <h4 class="font-semibold text-green-300 mb-4 flex items-center">
+                            <i class="fas fa-mountain mr-2"></i>
+                            Foundations of Earth
+                        </h4>
+                        <div class="space-y-2 text-sm text-white/70">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+                                <span>Lesson 1: Grounding Practices</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+                                <span>Lesson 2: Crystal Wisdom</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <div class="w-2 h-2 bg-yellow-400 rounded-full"></div>
+                                <span>Lesson 3: Plant Spirit Communication</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Module 2 -->
+                    <div class="bg-black/20 rounded-xl p-6 border border-brown-500/20">
+                        <h4 class="font-semibold text-amber-300 mb-4 flex items-center">
+                            <i class="fas fa-tree mr-2"></i>
+                            Sacred Herbalism
+                        </h4>
+                        <div class="space-y-2 text-sm text-white/70">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-2 h-2 bg-amber-400 rounded-full"></div>
+                                <span>Lesson 1: Medicine Garden</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <div class="w-2 h-2 bg-gray-400 rounded-full"></div>
+                                <span>Lesson 2: Herbal Preparations</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <div class="w-2 h-2 bg-gray-400 rounded-full"></div>
+                                <span>Lesson 3: Healing Ceremonies</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Module 3 -->
+                    <div class="bg-black/20 rounded-xl p-6 border border-stone-500/20">
+                        <h4 class="font-semibold text-stone-300 mb-4 flex items-center">
+                            <i class="fas fa-gem mr-2"></i>
+                            Earth Mastery
+                        </h4>
+                        <div class="space-y-2 text-sm text-white/70">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-2 h-2 bg-gray-400 rounded-full"></div>
+                                <span>Lesson 1: Seasonal Rituals</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <div class="w-2 h-2 bg-gray-400 rounded-full"></div>
+                                <span>Lesson 2: Earth Altar Creation</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <div class="w-2 h-2 bg-gray-400 rounded-full"></div>
+                                <span>Lesson 3: Guardian Spirit Work</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 text-center">
+                    <span class="text-sm text-white/60">
+                        <i class="fas fa-info-circle mr-2"></i>
+                        Progress tracked through both linear and exploratory paths
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-cinzel text-4xl md:text-5xl font-bold mb-6 text-sacred-100">
+                    Sacred Learning Features
+                </h2>
+                <p class="text-xl text-white/70 max-w-3xl mx-auto">
+                    Immersive tools and experiences designed to support deep learning and spiritual growth
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Interactive Journaling -->
+                <div class="bg-gradient-to-br from-cosmic-900/30 to-purple-900/30 backdrop-blur-sm rounded-2xl p-6 border border-cosmic-500/20 hover:border-cosmic-400/40 transition-all duration-300 group">
+                    <div class="text-center mb-6">
+                        <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-cosmic-600 to-purple-600 rounded-full mb-4 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-feather-alt text-2xl text-white"></i>
+                        </div>
+                        <h3 class="font-cinzel text-xl font-bold text-cosmic-200 mb-2">Sacred Journaling</h3>
+                    </div>
+                    <p class="text-white/70 text-sm text-center mb-4">
+                        Digital journals with guided prompts, reflection exercises, and personal insight tracking
+                    </p>
+                    <div class="bg-black/20 rounded-lg p-3 text-xs text-white/60">
+                        <!-- Sacred geometry mandala pattern background -->
+                        <div class="h-20 bg-cover bg-center rounded opacity-30 mb-2" 
+                             style="background-image: url('https://images.unsplash.com/photo-1528319725582-ddc096101511?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=200')"></div>
+                        <div class="text-center">✍️ "Today I discovered..."</div>
+                    </div>
+                </div>
+
+                <!-- Multi-Media Content -->
+                <div class="bg-gradient-to-br from-ethereal-900/30 to-blue-900/30 backdrop-blur-sm rounded-2xl p-6 border border-ethereal-500/20 hover:border-ethereal-400/40 transition-all duration-300 group">
+                    <div class="text-center mb-6">
+                        <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-ethereal-600 to-blue-600 rounded-full mb-4 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-photo-video text-2xl text-white"></i>
+                        </div>
+                        <h3 class="font-cinzel text-xl font-bold text-ethereal-200 mb-2">Rich Media Learning</h3>
+                    </div>
+                    <p class="text-white/70 text-sm text-center mb-4">
+                        Video teachings, audio meditations, interactive visuals, and downloadable resources
+                    </p>
+                    <div class="bg-black/20 rounded-lg p-3 text-xs text-white/60 text-center">
+                        <div class="flex justify-center space-x-2 mb-2">
+                            <i class="fas fa-play-circle text-blue-400"></i>
+                            <i class="fas fa-headphones text-purple-400"></i>
+                            <i class="fas fa-download text-green-400"></i>
+                        </div>
+                        <div>🎧 Guided Meditation • 15 min</div>
+                    </div>
+                </div>
+
+                <!-- Progress Tracking -->
+                <div class="bg-gradient-to-br from-sacred-900/30 to-yellow-900/30 backdrop-blur-sm rounded-2xl p-6 border border-sacred-500/20 hover:border-sacred-400/40 transition-all duration-300 group">
+                    <div class="text-center mb-6">
+                        <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-sacred-600 to-yellow-600 rounded-full mb-4 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-chart-line text-2xl text-white"></i>
+                        </div>
+                        <h3 class="font-cinzel text-xl font-bold text-sacred-200 mb-2">Sacred Progress</h3>
+                    </div>
+                    <p class="text-white/70 text-sm text-center mb-4">
+                        Meaningful progress visualization with spiritual milestones and achievement recognition
+                    </p>
+                    <div class="bg-black/20 rounded-lg p-3 text-xs text-white/60">
+                        <div class="flex justify-between mb-1">
+                            <span>Soul Journey</span>
+                            <span>75%</span>
+                        </div>
+                        <div class="w-full bg-white/10 rounded-full h-2">
+                            <div class="bg-gradient-to-r from-sacred-500 to-yellow-500 h-2 rounded-full" style="width: 75%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Virtual Altar -->
+                <div class="bg-gradient-to-br from-green-900/30 to-emerald-900/30 backdrop-blur-sm rounded-2xl p-6 border border-green-500/20 hover:border-green-400/40 transition-all duration-300 group">
+                    <div class="text-center mb-6">
+                        <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-green-600 to-emerald-600 rounded-full mb-4 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-praying-hands text-2xl text-white"></i>
+                        </div>
+                        <h3 class="font-cinzel text-xl font-bold text-green-200 mb-2">Virtual Altar</h3>
+                    </div>
+                    <p class="text-white/70 text-sm text-center mb-4">
+                        Create and customize your personal sacred space with virtual elements and offerings
+                    </p>
+                    <div class="bg-black/20 rounded-lg p-3 text-xs text-white/60 text-center">
+                        <!-- Beautiful altar setup with candles and crystals -->
+                        <div class="h-16 bg-cover bg-center rounded opacity-40 mb-2" 
+                             style="background-image: url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=200')"></div>
+                        <div>🕯️ Your Sacred Space</div>
+                    </div>
+                </div>
+
+                <!-- Community Circles -->
+                <div class="bg-gradient-to-br from-pink-900/30 to-rose-900/30 backdrop-blur-sm rounded-2xl p-6 border border-pink-500/20 hover:border-pink-400/40 transition-all duration-300 group">
+                    <div class="text-center mb-6">
+                        <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-pink-600 to-rose-600 rounded-full mb-4 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-users text-2xl text-white"></i>
+                        </div>
+                        <h3 class="font-cinzel text-xl font-bold text-pink-200 mb-2">Sacred Circles</h3>
+                    </div>
+                    <p class="text-white/70 text-sm text-center mb-4">
+                        Connect with like-minded souls in guided discussion circles and community rituals
+                    </p>
+                    <div class="bg-black/20 rounded-lg p-3 text-xs text-white/60 text-center">
+                        <div class="flex justify-center space-x-1 mb-2">
+                            <div class="w-6 h-6 bg-pink-500 rounded-full flex items-center justify-center text-xs">👤</div>
+                            <div class="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center text-xs">👤</div>
+                            <div class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center text-xs">👤</div>
+                        </div>
+                        <div>🌙 Full Moon Circle • Tonight</div>
+                    </div>
+                </div>
+
+                <!-- Assessment Tools -->
+                <div class="bg-gradient-to-br from-indigo-900/30 to-violet-900/30 backdrop-blur-sm rounded-2xl p-6 border border-indigo-500/20 hover:border-indigo-400/40 transition-all duration-300 group">
+                    <div class="text-center mb-6">
+                        <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-indigo-600 to-violet-600 rounded-full mb-4 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-brain text-2xl text-white"></i>
+                        </div>
+                        <h3 class="font-cinzel text-xl font-bold text-indigo-200 mb-2">Wisdom Assessments</h3>
+                    </div>
+                    <p class="text-white/70 text-sm text-center mb-4">
+                        Interactive quizzes, practical exercises, and reflection-based evaluations
+                    </p>
+                    <div class="bg-black/20 rounded-lg p-3 text-xs text-white/60 text-center">
+                        <div class="flex justify-between mb-1">
+                            <span>🧠 Knowledge Check</span>
+                            <span>8/10</span>
+                        </div>
+                        <div>💫 Soul Reflection Complete</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Platform Management Section -->
+    <section class="py-20 bg-black/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-cinzel text-4xl md:text-5xl font-bold mb-6 text-sacred-100">
+                    Academy Management
+                </h2>
+                <p class="text-xl text-white/70 max-w-3xl mx-auto">
+                    Powerful yet intuitive tools to create, organize, and evolve your sacred curriculum
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Management Features -->
+                <div class="space-y-8">
+                    <div class="flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-cosmic-600 to-purple-600 rounded-full flex items-center justify-center">
+                            <i class="fas fa-edit text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-cinzel text-xl font-bold text-cosmic-200 mb-2">
+                                Intuitive Content Creation
+                            </h3>
+                            <p class="text-white/70">
+                                Drag-and-drop interface for building lessons with multimedia support, interactive elements, and assessment tools
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-sacred-600 to-yellow-600 rounded-full flex items-center justify-center">
+                            <i class="fas fa-sitemap text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-cinzel text-xl font-bold text-sacred-200 mb-2">
+                                Flexible Curriculum Structure
+                            </h3>
+                            <p class="text-white/70">
+                                Organize content into realms, modules, and lessons with both linear progression and exploratory pathways
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-ethereal-600 to-blue-600 rounded-full flex items-center justify-center">
+                            <i class="fas fa-analytics text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-cinzel text-xl font-bold text-ethereal-200 mb-2">
+                                Learning Analytics
+                            </h3>
+                            <p class="text-white/70">
+                                Track student progress, engagement metrics, and learning outcomes to continually improve the experience
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-green-600 to-emerald-600 rounded-full flex items-center justify-center">
+                            <i class="fas fa-cloud text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-cinzel text-xl font-bold text-green-200 mb-2">
+                                Scalable Infrastructure
+                            </h3>
+                            <p class="text-white/70">
+                                Built to grow with your academy - from intimate circles to global communities of seekers
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Management Dashboard Preview -->
+                <div class="relative">
+                    <!-- Sacred temple interior with warm lighting -->
+                    <div class="absolute inset-0 bg-cover bg-center rounded-2xl opacity-20" 
+                         style="background-image: url('https://pixabay.com/get/g530e3b3f985273be088a8137face02fe0255f20cbd2683b44f3640eb7f068157ae356c545f8e01c504af1866b45d6ccdbefa49b42920a6c91f046534bac68175_1280.jpg')"></div>
+                    
+                    <div class="relative bg-gradient-to-br from-cosmic-900/50 to-purple-900/50 backdrop-blur-sm rounded-2xl p-6 border border-cosmic-500/30">
+                        <div class="mb-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="font-cinzel text-xl font-bold text-white">Academy Dashboard</h3>
+                                <button class="bg-sacred-500 hover:bg-sacred-600 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                                    <i class="fas fa-plus mr-2"></i>New Content
+                                </button>
+                            </div>
+                            
+                            <!-- Quick Stats -->
+                            <div class="grid grid-cols-3 gap-4 mb-6">
+                                <div class="bg-black/20 rounded-lg p-3 text-center">
+                                    <div class="text-2xl font-bold text-pink-300">47</div>
+                                    <div class="text-xs text-white/60">Active Seekers</div>
+                                </div>
+                                <div class="bg-black/20 rounded-lg p-3 text-center">
+                                    <div class="text-2xl font-bold text-sacred-300">12</div>
+                                    <div class="text-xs text-white/60">Live Lessons</div>
+                                </div>
+                                <div class="bg-black/20 rounded-lg p-3 text-center">
+                                    <div class="text-2xl font-bold text-cosmic-300">5</div>
+                                    <div class="text-xs text-white/60">Sacred Realms</div>
+                                </div>
+                            </div>
+
+                            <!-- Recent Activity -->
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between bg-black/20 rounded-lg p-3">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-3 h-3 bg-green-400 rounded-full"></div>
+                                        <span class="text-sm text-white/80">Earth Realm - Module 1 Published</span>
+                                    </div>
+                                    <span class="text-xs text-white/60">2h ago</span>
+                                </div>
+                                <div class="flex items-center justify-between bg-black/20 rounded-lg p-3">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-3 h-3 bg-blue-400 rounded-full"></div>
+                                        <span class="text-sm text-white/80">New seeker joined Water Circle</span>
+                                    </div>
+                                    <span class="text-xs text-white/60">5h ago</span>
+                                </div>
+                                <div class="flex items-center justify-between bg-black/20 rounded-lg p-3">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-3 h-3 bg-purple-400 rounded-full"></div>
+                                        <span class="text-sm text-white/80">Spirit Realm quiz completed</span>
+                                    </div>
+                                    <span class="text-xs text-white/60">1d ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 relative overflow-hidden">
+        <!-- Cosmic starfield background with nebula -->
+        <div class="absolute inset-0 bg-cover bg-center opacity-40" 
+             style="background-image: url('https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080')"></div>
+        
+        <div class="relative z-10 max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+            <div class="animate-glow mb-8">
+                <h2 class="font-cinzel text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-sacred-200 via-pink-200 to-cosmic-200 bg-clip-text text-transparent">
+                    Begin Your Sacred Journey
+                </h2>
+            </div>
+            
+            <p class="text-xl md:text-2xl text-white/80 mb-12 leading-relaxed">
+                The Academy of Remembrance awaits. Choose your path and rediscover 
+                the ancient wisdom that lives within your soul.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-8 justify-center items-center mb-12">
+                <button class="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 px-10 py-5 rounded-full font-bold text-xl transition-all duration-300 transform hover:scale-105 shadow-2xl animate-glow">
+                    <i class="fas fa-rocket mr-3"></i>
+                    Start Free Trial
+                </button>
+                <button class="border-2 border-sacred-400 hover:bg-sacred-400 hover:text-black px-10 py-5 rounded-full font-bold text-xl transition-all duration-300 transform hover:scale-105">
+                    <i class="fas fa-compass mr-3"></i>
+                    Explore Academy
+                </button>
+            </div>
+
+            <!-- Trust Indicators -->
+            <div class="flex flex-wrap justify-center items-center gap-8 text-white/60 text-sm">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-shield-alt text-green-400"></i>
+                    <span>Sacred & Secure</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-users text-blue-400"></i>
+                    <span>Growing Community</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-infinity text-purple-400"></i>
+                    <span>Lifetime Access</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-heart text-pink-400"></i>
+                    <span>Built with Love</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black/40 backdrop-blur-sm border-t border-white/10 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <!-- Brand -->
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-ankh text-2xl text-sacred-400"></i>
+                        <span class="font-cinzel text-xl font-bold text-sacred-100">Jakintza Ruha</span>
+                    </div>
+                    <p class="text-white/60 text-sm">
+                        Academy of Remembrance - where souls rediscover their ancient wisdom through sacred learning.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-white/60 hover:text-sacred-400 transition-colors">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-white/60 hover:text-sacred-400 transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-white/60 hover:text-sacred-400 transition-colors">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Learning Paths -->
+                <div>
+                    <h3 class="font-cinzel text-lg font-bold text-white mb-4">Learning Paths</h3>
+                    <ul class="space-y-2 text-sm text-white/60">
+                        <li><a href="#" class="hover:text-sacred-400 transition-colors">Children's Quests</a></li>
+                        <li><a href="#" class="hover:text-sacred-400 transition-colors">Adult Journey</a></li>
+                        <li><a href="#" class="hover:text-sacred-400 transition-colors">Sacred Realms</a></li>
+                        <li><a href="#" class="hover:text-sacred-400 transition-colors">Community Circles</a></li>
+                    </ul>
+                </div>
+
+                <!-- Resources -->
+                <div>
+                    <h3 class="font-cinzel text-lg font-bold text-white mb-4">Resources</h3>
+                    <ul class="space-y-2 text-sm text-white/60">
+                        <li><a href="#" class="hover:text-sacred-400 transition-colors">Getting Started</a></li>
+                        <li><a href="#" class="hover:text-sacred-400 transition-colors">Support Center</a></li>
+                        <li><a href="#" class="hover:text-sacred-400 transition-colors">Content Library</a></li>
+                        <li><a href="#" class="hover:text-sacred-400 transition-colors">Teacher Resources</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h3 class="font-cinzel text-lg font-bold text-white mb-4">Connect</h3>
+                    <ul class="space-y-2 text-sm text-white/60">
+                        <li class="flex items-center space-x-2">
+                            <i class="fas fa-envelope text-sacred-400"></i>
+                            <span>hello@jakintzaruha.com</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i class="fas fa-phone text-sacred-400"></i>
+                            <span>+1 (555) 123-SOUL</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i class="fas fa-map-marker-alt text-sacred-400"></i>
+                            <span>Sacred Space, Earth</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-white/10 mt-8 pt-8 text-center text-sm text-white/40">
+                <p>&copy; 2024 Jakintza Ruha: Academy of Remembrance. All sacred rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Theme switcher functionality
+        (function() {
+            const childThemeBtn = document.getElementById('childTheme');
+            const adultThemeBtn = document.getElementById('adultTheme');
+            const body = document.getElementById('main-body');
+
+            function switchToChildTheme() {
+                // Update button states
+                childThemeBtn.classList.add('bg-pink-500', 'text-white');
+                childThemeBtn.classList.remove('text-white/70');
+                adultThemeBtn.classList.remove('bg-cosmic-700', 'text-white');
+                adultThemeBtn.classList.add('text-white/70');
+
+                // Update body classes for child theme
+                body.className = 'font-inter bg-gradient-to-br from-pink-900 via-purple-900 to-indigo-900 text-white';
+                
+                // TODO: Implement full theme switching logic
+                // This would update CSS custom properties, component styles, etc.
+            }
+
+            function switchToAdultTheme() {
+                // Update button states
+                adultThemeBtn.classList.add('bg-cosmic-700', 'text-white');
+                adultThemeBtn.classList.remove('text-white/70');
+                childThemeBtn.classList.remove('bg-pink-500', 'text-white');
+                childThemeBtn.classList.add('text-white/70');
+
+                // Update body classes for adult theme
+                body.className = 'font-inter bg-gradient-to-br from-cosmic-900 via-purple-900 to-indigo-900 text-white';
+                
+                // TODO: Implement full theme switching logic
+            }
+
+            childThemeBtn.addEventListener('click', switchToChildTheme);
+            adultThemeBtn.addEventListener('click', switchToAdultTheme);
+
+            // Set initial state
+            switchToChildTheme();
+        })();
+
+        // Smooth scrolling for navigation links
+        (function() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        })();
+
+        // Add parallax effect to hero section
+        (function() {
+            window.addEventListener('scroll', () => {
+                const scrolled = window.pageYOffset;
+                const heroElements = document.querySelectorAll('.animate-float');
+                
+                heroElements.forEach((element, index) => {
+                    const speed = 0.5 + (index * 0.1);
+                    element.style.transform = `translateY(${scrolled * speed}px)`;
+                });
+            });
+        })();
+
+        // TODO: Implement user authentication system
+        // TODO: Add content management system integration
+        // TODO: Implement progress tracking functionality
+        // TODO: Add community features and user interactions
+        // TODO: Integrate payment processing for course access
+        // TODO: Add multimedia content player components
+        // TODO: Implement quiz and assessment system
+        // TODO: Add journaling and note-taking features
+        // TODO: Implement notification system for course updates
+        // TODO: Add responsive design optimizations for mobile devices
+    </script>
+</body>
+</html>
