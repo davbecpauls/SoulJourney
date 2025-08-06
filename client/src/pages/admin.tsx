@@ -23,7 +23,13 @@ import {
   Users,
   BarChart3,
   Eye,
-  EyeOff
+  EyeOff,
+  FileText,
+  Image,
+  Video,
+  Music,
+  Download,
+  Megaphone
 } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 import { queryClient } from "@/lib/queryClient";
@@ -38,8 +44,10 @@ export default function AdminPage() {
   const [isCreateRealmOpen, setIsCreateRealmOpen] = useState(false);
   const [isCreateModuleOpen, setIsCreateModuleOpen] = useState(false);
   const [isCreateLessonOpen, setIsCreateLessonOpen] = useState(false);
+  const [isCreateContentOpen, setIsCreateContentOpen] = useState(false);
   const [selectedRealm, setSelectedRealm] = useState<string>("");
   const [selectedModule, setSelectedModule] = useState<string>("");
+  const [selectedContentType, setSelectedContentType] = useState<string>("resource");
 
   // Form states
   const [realmForm, setRealmForm] = useState<Partial<InsertRealm>>({
@@ -74,6 +82,47 @@ export default function AdminPage() {
     childContent: {},
     adultContent: {}
   });
+
+  const [contentForm, setContentForm] = useState({
+    title: "",
+    description: "",
+    type: "resource",
+    url: "",
+    fileType: "",
+    category: "",
+    tags: "",
+    isActive: true,
+    content: "",
+    targetAudience: "both"
+  });
+
+  // Mock content data (would be from API in real implementation)
+  const [contentItems, setContentItems] = useState([
+    {
+      id: "1",
+      title: "Sacred Geometry Guide",
+      description: "Complete guide to sacred geometry principles",
+      type: "resource",
+      url: "/resources/sacred-geometry.pdf",
+      fileType: "pdf",
+      category: "guides",
+      tags: ["geometry", "sacred", "spiritual"],
+      isActive: true,
+      targetAudience: "adult"
+    },
+    {
+      id: "2", 
+      title: "Dragon Adventure Music",
+      description: "Background music for dragon quests",
+      type: "media",
+      url: "/audio/dragon-music.mp3",
+      fileType: "audio",
+      category: "music",
+      tags: ["dragon", "adventure", "background"],
+      isActive: true,
+      targetAudience: "child"
+    }
+  ]);
 
   // Queries
   const { data: realms, isLoading: realmsLoading } = useQuery<Realm[]>({
@@ -241,6 +290,43 @@ export default function AdminPage() {
     createLessonMutation.mutate(lessonForm as InsertLesson);
   };
 
+  const handleCreateContent = () => {
+    if (!contentForm.title || !contentForm.description || !contentForm.type) {
+      toast({
+        title: "Error",
+        description: "Please fill in all required fields.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const newContent = {
+      ...contentForm,
+      id: Date.now().toString(),
+      tags: contentForm.tags.split(',').map(tag => tag.trim()).filter(Boolean)
+    };
+
+    setContentItems(prev => [...prev, newContent]);
+    setIsCreateContentOpen(false);
+    setContentForm({
+      title: "",
+      description: "",
+      type: "resource",
+      url: "",
+      fileType: "",
+      category: "",
+      tags: "",
+      isActive: true,
+      content: "",
+      targetAudience: "both"
+    });
+
+    toast({
+      title: "Content Created",
+      description: "New content item has been added successfully.",
+    });
+  };
+
   if (realmsLoading) {
     return (
       <div className="min-h-screen mystical-background flex items-center justify-center">
@@ -323,6 +409,10 @@ export default function AdminPage() {
               <TabsTrigger value="lessons" data-testid="tab-lessons">
                 <BookOpen className="mr-2" size={16} />
                 {theme === 'child' ? 'Adventures' : 'Lessons'}
+              </TabsTrigger>
+              <TabsTrigger value="content" data-testid="tab-content">
+                <FileText className="mr-2" size={16} />
+                Content
               </TabsTrigger>
               <TabsTrigger value="analytics" data-testid="tab-analytics">
                 <BarChart3 className="mr-2" size={16} />
@@ -903,6 +993,260 @@ export default function AdminPage() {
                   </p>
                 </div>
               )}
+            </TabsContent>
+
+            <TabsContent value="content" className="space-y-6">
+              <div className="flex justify-between items-center">
+                <div>
+                  <h2 className="font-cinzel text-2xl font-bold text-white">Content Management</h2>
+                  <p className="text-white/60">Manage resources, media, announcements, and other content</p>
+                </div>
+                <div className="flex space-x-4">
+                  <Select
+                    value={selectedContentType}
+                    onValueChange={setSelectedContentType}
+                  >
+                    <SelectTrigger className="w-48 bg-black/20 border-white/20 text-white" data-testid="select-content-type">
+                      <SelectValue placeholder="Content type" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-black/90 border-white/20">
+                      <SelectItem value="all">All Content</SelectItem>
+                      <SelectItem value="resource">📄 Resources</SelectItem>
+                      <SelectItem value="media">🎵 Media</SelectItem>
+                      <SelectItem value="announcement">📢 Announcements</SelectItem>
+                      <SelectItem value="page">📃 Pages</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <Dialog open={isCreateContentOpen} onOpenChange={setIsCreateContentOpen}>
+                    <DialogTrigger asChild>
+                      <Button className="adult-button" data-testid="button-create-content">
+                        <Plus className="mr-2" size={16} />
+                        Add Content
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="mystical-card border-white/20 text-white max-w-3xl">
+                      <DialogHeader>
+                        <DialogTitle className="font-cinzel text-xl">Create New Content</DialogTitle>
+                      </DialogHeader>
+                      <div className="space-y-4">
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <Label htmlFor="content-title">Title</Label>
+                            <Input
+                              id="content-title"
+                              value={contentForm.title}
+                              onChange={(e) => setContentForm({ ...contentForm, title: e.target.value })}
+                              placeholder="Content title"
+                              className="bg-black/20 border-white/20 text-white"
+                              data-testid="input-content-title"
+                            />
+                          </div>
+                          <div>
+                            <Label htmlFor="content-type">Content Type</Label>
+                            <Select
+                              value={contentForm.type}
+                              onValueChange={(value) => setContentForm({ ...contentForm, type: value })}
+                            >
+                              <SelectTrigger className="bg-black/20 border-white/20 text-white" data-testid="select-content-type-form">
+                                <SelectValue placeholder="Select type" />
+                              </SelectTrigger>
+                              <SelectContent className="bg-black/90 border-white/20">
+                                <SelectItem value="resource">📄 Resource</SelectItem>
+                                <SelectItem value="media">🎵 Media</SelectItem>
+                                <SelectItem value="announcement">📢 Announcement</SelectItem>
+                                <SelectItem value="page">📃 Page</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        </div>
+                        <div>
+                          <Label htmlFor="content-description">Description</Label>
+                          <Textarea
+                            id="content-description"
+                            value={contentForm.description}
+                            onChange={(e) => setContentForm({ ...contentForm, description: e.target.value })}
+                            placeholder="Brief description of the content..."
+                            className="bg-black/20 border-white/20 text-white"
+                            data-testid="textarea-content-description"
+                          />
+                        </div>
+                        <div className="grid grid-cols-3 gap-4">
+                          <div>
+                            <Label htmlFor="content-category">Category</Label>
+                            <Input
+                              id="content-category"
+                              value={contentForm.category}
+                              onChange={(e) => setContentForm({ ...contentForm, category: e.target.value })}
+                              placeholder="guides, music, etc."
+                              className="bg-black/20 border-white/20 text-white"
+                              data-testid="input-content-category"
+                            />
+                          </div>
+                          <div>
+                            <Label htmlFor="content-file-type">File Type</Label>
+                            <Input
+                              id="content-file-type"
+                              value={contentForm.fileType}
+                              onChange={(e) => setContentForm({ ...contentForm, fileType: e.target.value })}
+                              placeholder="pdf, mp3, video, etc."
+                              className="bg-black/20 border-white/20 text-white"
+                              data-testid="input-content-file-type"
+                            />
+                          </div>
+                          <div>
+                            <Label htmlFor="content-audience">Target Audience</Label>
+                            <Select
+                              value={contentForm.targetAudience}
+                              onValueChange={(value) => setContentForm({ ...contentForm, targetAudience: value })}
+                            >
+                              <SelectTrigger className="bg-black/20 border-white/20 text-white" data-testid="select-content-audience">
+                                <SelectValue placeholder="Select audience" />
+                              </SelectTrigger>
+                              <SelectContent className="bg-black/90 border-white/20">
+                                <SelectItem value="both">Both</SelectItem>
+                                <SelectItem value="child">Children</SelectItem>
+                                <SelectItem value="adult">Adults</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        </div>
+                        <div>
+                          <Label htmlFor="content-url">URL/File Path</Label>
+                          <Input
+                            id="content-url"
+                            value={contentForm.url}
+                            onChange={(e) => setContentForm({ ...contentForm, url: e.target.value })}
+                            placeholder="/resources/file.pdf or https://..."
+                            className="bg-black/20 border-white/20 text-white"
+                            data-testid="input-content-url"
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="content-tags">Tags (comma-separated)</Label>
+                          <Input
+                            id="content-tags"
+                            value={contentForm.tags}
+                            onChange={(e) => setContentForm({ ...contentForm, tags: e.target.value })}
+                            placeholder="spiritual, meditation, guides"
+                            className="bg-black/20 border-white/20 text-white"
+                            data-testid="input-content-tags"
+                          />
+                        </div>
+                        {(contentForm.type === "page" || contentForm.type === "announcement") && (
+                          <div>
+                            <Label htmlFor="content-body">Content Body</Label>
+                            <Textarea
+                              id="content-body"
+                              value={contentForm.content}
+                              onChange={(e) => setContentForm({ ...contentForm, content: e.target.value })}
+                              placeholder="Full content text..."
+                              className="bg-black/20 border-white/20 text-white min-h-[100px]"
+                              data-testid="textarea-content-body"
+                            />
+                          </div>
+                        )}
+                        <div className="flex items-center space-x-2">
+                          <Switch
+                            id="content-active"
+                            checked={contentForm.isActive}
+                            onCheckedChange={(checked) => setContentForm({ ...contentForm, isActive: checked })}
+                            data-testid="switch-content-active"
+                          />
+                          <Label htmlFor="content-active">Active</Label>
+                        </div>
+                        <Button
+                          onClick={handleCreateContent}
+                          className="adult-button w-full"
+                          data-testid="button-submit-content"
+                        >
+                          Create Content
+                        </Button>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                </div>
+              </div>
+
+              <div className="grid gap-4">
+                {contentItems
+                  .filter(item => selectedContentType === "all" || item.type === selectedContentType)
+                  .map((item) => (
+                    <Card key={item.id} className="mystical-card border-white/20">
+                      <CardContent className="p-6">
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <div className="flex items-center mb-2">
+                              <div className="mr-3">
+                                {item.type === "resource" && <FileText className="text-blue-400" size={20} />}
+                                {item.type === "media" && <Music className="text-purple-400" size={20} />}
+                                {item.type === "announcement" && <Megaphone className="text-yellow-400" size={20} />}
+                                {item.type === "page" && <FileText className="text-green-400" size={20} />}
+                              </div>
+                              <h3 className="font-cinzel text-xl font-bold text-white mr-4">{item.title}</h3>
+                              <Badge variant={item.isActive ? "default" : "secondary"} className="text-xs">
+                                {item.isActive ? 'Active' : 'Inactive'}
+                              </Badge>
+                              <Badge variant="outline" className="text-xs ml-2">
+                                {item.targetAudience}
+                              </Badge>
+                            </div>
+                            <p className="text-white/70 mb-3">{item.description}</p>
+                            <div className="flex flex-wrap gap-2 mb-3">
+                              {item.tags.map((tag, index) => (
+                                <Badge key={index} variant="outline" className="text-xs">
+                                  {tag}
+                                </Badge>
+                              ))}
+                            </div>
+                            <div className="text-sm text-white/50">
+                              Type: {item.type} • Category: {item.category} • File: {item.fileType}
+                            </div>
+                            {item.url && (
+                              <div className="text-sm text-white/50 mt-1">
+                                URL: {item.url}
+                              </div>
+                            )}
+                          </div>
+                          <div className="flex space-x-2">
+                            <Button 
+                              size="sm" 
+                              variant="outline"
+                              data-testid={`button-edit-content-${item.id}`}
+                            >
+                              <Edit size={14} className="mr-1" />
+                              Edit
+                            </Button>
+                            <Button 
+                              size="sm" 
+                              variant="outline" 
+                              className="border-red-500/50 text-red-400 hover:bg-red-500/20"
+                              onClick={() => {
+                                if (window.confirm(`Are you sure you want to delete "${item.title}"?`)) {
+                                  setContentItems(prev => prev.filter(content => content.id !== item.id));
+                                  toast({
+                                    title: "Content Deleted",
+                                    description: "Content item has been removed.",
+                                  });
+                                }
+                              }}
+                              data-testid={`button-delete-content-${item.id}`}
+                            >
+                              <Trash2 size={14} />
+                            </Button>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))
+                }
+                {contentItems.filter(item => selectedContentType === "all" || item.type === selectedContentType).length === 0 && (
+                  <div className="text-center py-12">
+                    <FileText className="mx-auto mb-4 text-white/40" size={48} />
+                    <p className="text-white/60 text-lg mb-4">No content items found</p>
+                    <p className="text-white/40">Create your first content item to get started.</p>
+                  </div>
+                )}
+              </div>
             </TabsContent>
 
             <TabsContent value="analytics" className="space-y-6">
