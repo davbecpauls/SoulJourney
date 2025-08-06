@@ -15,6 +15,9 @@ import {
   type InsertJournalEntry
 } from "@shared/schema";
 import { randomUUID } from "crypto";
+import { drizzle } from "drizzle-orm/postgres-js";
+import { eq } from "drizzle-orm";
+import postgres from "postgres";
 
 export interface IStorage {
   // User methods
@@ -196,7 +199,7 @@ export class MemStorage implements IStorage {
   async updateUser(id: string, userData: Partial<User>): Promise<User | undefined> {
     const user = this.users.get(id);
     if (!user) return undefined;
-    
+
     const updatedUser = { ...user, ...userData };
     this.users.set(id, updatedUser);
     return updatedUser;
@@ -229,7 +232,7 @@ export class MemStorage implements IStorage {
   async updateRealm(id: string, realmData: Partial<Realm>): Promise<Realm | undefined> {
     const realm = this.realms.get(id);
     if (!realm) return undefined;
-    
+
     const updatedRealm = { ...realm, ...realmData };
     this.realms.set(id, updatedRealm);
     return updatedRealm;
@@ -265,7 +268,7 @@ export class MemStorage implements IStorage {
   async updateModule(id: string, moduleData: Partial<Module>): Promise<Module | undefined> {
     const module = this.modules.get(id);
     if (!module) return undefined;
-    
+
     const updatedModule = { ...module, ...moduleData };
     this.modules.set(id, updatedModule);
     return updatedModule;
@@ -303,7 +306,7 @@ export class MemStorage implements IStorage {
   async updateLesson(id: string, lessonData: Partial<Lesson>): Promise<Lesson | undefined> {
     const lesson = this.lessons.get(id);
     if (!lesson) return undefined;
-    
+
     const updatedLesson = { ...lesson, ...lessonData };
     this.lessons.set(id, updatedLesson);
     return updatedLesson;
@@ -342,7 +345,7 @@ export class MemStorage implements IStorage {
   async updateUserProgress(id: string, progressData: Partial<UserProgress>): Promise<UserProgress | undefined> {
     const progress = this.userProgress.get(id);
     if (!progress) return undefined;
-    
+
     const updatedProgress = { 
       ...progress, 
       ...progressData,
@@ -361,7 +364,7 @@ export class MemStorage implements IStorage {
     const userAchievementIds = Array.from(this.userAchievements.values())
       .filter(ua => ua.userId === userId)
       .map(ua => ua.achievementId);
-    
+
     return Array.from(this.achievements.values())
       .filter(achievement => userAchievementIds.includes(achievement.id));
   }
@@ -418,7 +421,7 @@ export class MemStorage implements IStorage {
   async updateJournalEntry(id: string, entryData: Partial<JournalEntry>): Promise<JournalEntry | undefined> {
     const entry = this.journalEntries.get(id);
     if (!entry) return undefined;
-    
+
     const updatedEntry = { 
       ...entry, 
       ...entryData,

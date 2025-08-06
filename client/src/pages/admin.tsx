@@ -169,6 +169,39 @@ export default function AdminPage() {
     },
   });
 
+  const deleteRealmMutation = useMutation({
+    mutationFn: (id: string) => apiRequest('DELETE', `/api/realms/${id}`),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/realms'] });
+      toast({
+        title: "Realm Deleted",
+        description: "The mystical realm has been removed.",
+      });
+    },
+  });
+
+  const deleteModuleMutation = useMutation({
+    mutationFn: (id: string) => apiRequest('DELETE', `/api/modules/${id}`),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/realms', selectedRealm, 'modules'] });
+      toast({
+        title: "Module Deleted",
+        description: theme === 'child' ? "Quest chapter removed!" : "Sacred module removed!",
+      });
+    },
+  });
+
+  const deleteLessonMutation = useMutation({
+    mutationFn: (id: string) => apiRequest('DELETE', `/api/lessons/${id}`),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/modules', selectedModule, 'lessons'] });
+      toast({
+        title: "Lesson Deleted",
+        description: theme === 'child' ? "Adventure removed!" : "Sacred lesson removed!",
+      });
+    },
+  });
+
   const handleCreateRealm = () => {
     if (!realmForm.title || !realmForm.description || !realmForm.element) {
       toast({
@@ -455,6 +488,11 @@ export default function AdminPage() {
                           size="sm" 
                           variant="outline" 
                           className="border-red-500/50 text-red-400 hover:bg-red-500/20"
+                          onClick={() => {
+                            if (window.confirm("Are you sure you want to delete this realm? This action cannot be undone.")) {
+                              deleteRealmMutation.mutate(realm.id);
+                            }
+                          }}
                           data-testid={`button-delete-realm-${realm.id}`}
                         >
                           <Trash2 size={14} />
@@ -630,6 +668,11 @@ export default function AdminPage() {
                               size="sm" 
                               variant="outline" 
                               className="border-red-500/50 text-red-400 hover:bg-red-500/20"
+                              onClick={() => {
+                                if (window.confirm(`Are you sure you want to delete "${module.title}"? This action cannot be undone.`)) {
+                                  deleteModuleMutation.mutate(module.id);
+                                }
+                              }}
                               data-testid={`button-delete-module-${module.id}`}
                             >
                               <Trash2 size={14} />
@@ -827,6 +870,11 @@ export default function AdminPage() {
                               size="sm" 
                               variant="outline" 
                               className="border-red-500/50 text-red-400 hover:bg-red-500/20"
+                              onClick={() => {
+                                if (window.confirm(`Are you sure you want to delete "${lesson.title}"? This action cannot be undone.`)) {
+                                  deleteLessonMutation.mutate(lesson.id);
+                                }
+                              }}
                               data-testid={`button-delete-lesson-${lesson.id}`}
                             >
                               <Trash2 size={14} />

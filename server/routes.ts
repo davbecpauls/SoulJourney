@@ -92,6 +92,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.delete("/api/realms/:id", async (req, res) => {
+    try {
+      const success = await storage.deleteRealm(req.params.id);
+      if (!success) {
+        return res.status(404).json({ message: "Realm not found" });
+      }
+      res.json({ message: "Realm deleted successfully" });
+    } catch (error) {
+      res.status(400).json({ message: "Failed to delete realm", error });
+    }
+  });
+
   // Module routes
   app.get("/api/realms/:realmId/modules", async (req, res) => {
     try {
@@ -109,6 +121,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(module);
     } catch (error) {
       res.status(400).json({ message: "Invalid module data", error });
+    }
+  });
+
+  app.put("/api/modules/:id", async (req, res) => {
+    try {
+      const updates = req.body;
+      const module = await storage.updateModule(req.params.id, updates);
+      if (!module) {
+        return res.status(404).json({ message: "Module not found" });
+      }
+      res.json(module);
+    } catch (error) {
+      res.status(400).json({ message: "Failed to update module", error });
+    }
+  });
+
+  app.delete("/api/modules/:id", async (req, res) => {
+    try {
+      const success = await storage.deleteModule(req.params.id);
+      if (!success) {
+        return res.status(404).json({ message: "Module not found" });
+      }
+      res.json({ message: "Module deleted successfully" });
+    } catch (error) {
+      res.status(400).json({ message: "Failed to delete module", error });
     }
   });
 
@@ -141,6 +178,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(lesson);
     } catch (error) {
       res.status(400).json({ message: "Invalid lesson data", error });
+    }
+  });
+
+  app.put("/api/lessons/:id", async (req, res) => {
+    try {
+      const updates = req.body;
+      const lesson = await storage.updateLesson(req.params.id, updates);
+      if (!lesson) {
+        return res.status(404).json({ message: "Lesson not found" });
+      }
+      res.json(lesson);
+    } catch (error) {
+      res.status(400).json({ message: "Failed to update lesson", error });
+    }
+  });
+
+  app.delete("/api/lessons/:id", async (req, res) => {
+    try {
+      const success = await storage.deleteLesson(req.params.id);
+      if (!success) {
+        return res.status(404).json({ message: "Lesson not found" });
+      }
+      res.json({ message: "Lesson deleted successfully" });
+    } catch (error) {
+      res.status(400).json({ message: "Failed to delete lesson", error });
     }
   });
 
