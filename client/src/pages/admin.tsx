@@ -2,6 +2,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useTheme } from "@/contexts/theme-context";
 import { Navigation } from "@/components/navigation";
+import { ContentCreator } from "@/components/admin/content-creator";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -23,7 +24,11 @@ import {
   Users,
   BarChart3,
   Eye,
-  EyeOff
+  EyeOff,
+  Wand2,
+  Upload,
+  Download,
+  Play
 } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 import { queryClient } from "@/lib/queryClient";
@@ -38,6 +43,8 @@ export default function AdminPage() {
   const [isCreateRealmOpen, setIsCreateRealmOpen] = useState(false);
   const [isCreateModuleOpen, setIsCreateModuleOpen] = useState(false);
   const [isCreateLessonOpen, setIsCreateLessonOpen] = useState(false);
+  const [showContentCreator, setShowContentCreator] = useState(false);
+  const [editingLesson, setEditingLesson] = useState<Lesson | undefined>(undefined);
   const [selectedRealm, setSelectedRealm] = useState<string>("");
   const [selectedModule, setSelectedModule] = useState<string>("");
 
@@ -208,6 +215,51 @@ export default function AdminPage() {
     createLessonMutation.mutate(lessonForm as InsertLesson);
   };
 
+  const handleSaveLesson = (lessonData: any) => {
+    const enhancedLessonData = {
+      ...lessonData,
+      content: { blocks: lessonData.contentBlocks },
+      childContent: { blocks: lessonData.contentBlocks.map((block: any) => ({ ...block, childThemed: true })) },
+      adultContent: { blocks: lessonData.contentBlocks.map((block: any) => ({ ...block, adultThemed: true })) },
+      mediaAssets: lessonData.contentBlocks.filter((block: any) => ['image', 'video', 'audio'].includes(block.type)),
+      downloadableResources: lessonData.downloadableResources,
+      gamificationData: lessonData.gamificationData,
+      lessonType: lessonData.lessonType,
+      choices: lessonData.choices,
+      nextLessons: lessonData.choices?.map((choice: any) => choice.nextLesson).filter(Boolean) || []
+    };
+
+    if (editingLesson) {
+      // Update existing lesson
+      apiRequest('PUT', `/api/lessons/${editingLesson.id}`, enhancedLessonData)
+        .then(() => {
+          queryClient.invalidateQueries({ queryKey: ['/api/modules', selectedModule, 'lessons'] });
+          setShowContentCreator(false);
+          setEditingLesson(undefined);
+          toast({
+            title: "Lesson Updated",
+            description: "Lesson has been successfully updated.",
+          });
+        })
+        .catch((error) => {
+          toast({
+            title: "Error",
+            description: "Failed to update lesson.",
+            variant: "destructive",
+          });
+        });
+    } else {
+      // Create new lesson
+      createLessonMutation.mutate(enhancedLessonData as InsertLesson);
+      setShowContentCreator(false);
+    }
+  };
+
+  const openContentCreator = (lesson?: Lesson) => {
+    setEditingLesson(lesson);
+    setShowContentCreator(true);
+  };
+
   if (realmsLoading) {
     return (
       <div className="min-h-screen mystical-background flex items-center justify-center">
@@ -290,6 +342,14 @@ export default function AdminPage() {
               <TabsTrigger value="lessons" data-testid="tab-lessons">
                 <BookOpen className="mr-2" size={16} />
                 {theme === 'child' ? 'Adventures' : 'Lessons'}
+              </TabsTrigger>
+              <TabsTrigger value="content-creator" data-testid="tab-content-creator">
+                <Wand2 className="mr-2" size={16} />
+                Content Creator
+              </TabsTrigger>
+              <TabsTrigger value="media" data-testid="tab-media">
+                <Upload className="mr-2" size={16} />
+                Media Library
               </TabsTrigger>
               <TabsTrigger value="analytics" data-testid="tab-analytics">
                 <BarChart3 className="mr-2" size={16} />
@@ -686,15 +746,24 @@ export default function AdminPage() {
                       ))}
                     </SelectContent>
                   </Select>
+                  <Button 
+                    className="adult-button"
+                    disabled={!selectedModule}
+                    onClick={() => openContentCreator()}
+                    data-testid="button-create-interactive-lesson"
+                  >
+                    <Wand2 className="mr-2" size={16} />
+                    Create Interactive {theme === 'child' ? 'Adventure' : 'Lesson'}
+                  </Button>
                   <Dialog open={isCreateLessonOpen} onOpenChange={setIsCreateLessonOpen}>
                     <DialogTrigger asChild>
                       <Button 
-                        className="adult-button"
+                        variant="outline"
                         disabled={!selectedModule}
                         data-testid="button-create-lesson"
                       >
                         <Plus className="mr-2" size={16} />
-                        Create {theme === 'child' ? 'Adventure' : 'Lesson'}
+                        Quick {theme === 'child' ? 'Adventure' : 'Lesson'}
                       </Button>
                     </DialogTrigger>
                     <DialogContent className="mystical-card border-white/20 text-white max-w-2xl">
@@ -818,10 +887,19 @@ export default function AdminPage() {
                             <Button 
                               size="sm" 
                               variant="outline"
+                              onClick={() => openContentCreator(lesson)}
                               data-testid={`button-edit-lesson-${lesson.id}`}
                             >
+                              <Wand2 size={14} className="mr-1" />
+                              Enhanced Edit
+                            </Button>
+                            <Button 
+                              size="sm" 
+                              variant="outline"
+                              data-testid={`button-quick-edit-lesson-${lesson.id}`}
+                            >
                               <Edit size={14} className="mr-1" />
-                              Edit
+                              Quick Edit
                             </Button>
                             <Button 
                               size="sm" 
@@ -855,6 +933,157 @@ export default function AdminPage() {
                   </p>
                 </div>
               )}
+            </TabsContent>
+
+            <TabsContent value="content-creator" className="space-y-6">
+              {showContentCreator ? (
+                <div>
+                  <div className="flex items-center justify-between mb-6">
+                    <h2 className="font-cinzel text-2xl font-bold text-white">
+                      Interactive Content Creator
+                    </h2>
+                    <Button 
+                      variant="outline" 
+                      onClick={() => {
+                        setShowContentCreator(false);
+                        setEditingLesson(undefined);
+                      }}
+                    >
+                      Back to Lessons
+                    </Button>
+                  </div>
+                  <ContentCreator
+                    realms={realms || []}
+                    modules={modules || []}
+                    onSave={handleSaveLesson}
+                    editingLesson={editingLesson}
+                  />
+                </div>
+              ) : (
+                <div className="text-center py-12">
+                  <Wand2 className="mx-auto mb-4 text-white/40" size={48} />
+                  <h3 className="text-xl font-semibold text-white mb-4">Interactive Content Creator</h3>
+                  <p className="text-white/60 text-lg mb-6">
+                    Create rich, interactive lessons with branching narratives, multimedia content, and gamification.
+                  </p>
+                  <div className="flex justify-center gap-4">
+                    <Button 
+                      onClick={() => openContentCreator()}
+                      disabled={!selectedModule}
+                      className="adult-button"
+                    >
+                      <Wand2 className="mr-2" size={16} />
+                      Start Creating
+                    </Button>
+                    {!selectedModule && (
+                      <p className="text-white/40 text-sm self-center">
+                        Select a module first to create lessons
+                      </p>
+                    )}
+                  </div>
+                </div>
+              )}
+            </TabsContent>
+
+            <TabsContent value="media" className="space-y-6">
+              <div className="flex justify-between items-center">
+                <h2 className="font-cinzel text-2xl font-bold text-white">Media Library</h2>
+                <div className="flex gap-2">
+                  <Button className="adult-button">
+                    <Upload className="mr-2" size={16} />
+                    Upload Media
+                  </Button>
+                  <Button variant="outline">
+                    <Download className="mr-2" size={16} />
+                    Bulk Export
+                  </Button>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {/* Sample media items - in real app, this would be dynamic */}
+                <Card className="mystical-card border-blue-500/30">
+                  <div className="aspect-video bg-blue-500/20 rounded-t-lg flex items-center justify-center">
+                    <span className="text-4xl">🎥</span>
+                  </div>
+                  <CardContent className="p-4">
+                    <h4 className="font-semibold text-white mb-2">Earth Meditation.mp4</h4>
+                    <p className="text-xs text-white/60 mb-3">Video • 2.4 MB • Uploaded 2h ago</p>
+                    <div className="flex gap-2">
+                      <Button size="sm" variant="outline" className="text-xs">
+                        <Eye size={12} className="mr-1" />
+                        Preview
+                      </Button>
+                      <Button size="sm" variant="outline" className="text-xs">
+                        <Download size={12} />
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="mystical-card border-green-500/30">
+                  <div className="aspect-video bg-green-500/20 rounded-t-lg flex items-center justify-center">
+                    <span className="text-4xl">🎵</span>
+                  </div>
+                  <CardContent className="p-4">
+                    <h4 className="font-semibold text-white mb-2">Crystal_Bowl.mp3</h4>
+                    <p className="text-xs text-white/60 mb-3">Audio • 1.8 MB • Uploaded 1d ago</p>
+                    <div className="flex gap-2">
+                      <Button size="sm" variant="outline" className="text-xs">
+                        <Play className="mr-1" size={12} />
+                        Play
+                      </Button>
+                      <Button size="sm" variant="outline" className="text-xs">
+                        <Download size={12} />
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="mystical-card border-purple-500/30">
+                  <div className="aspect-video bg-purple-500/20 rounded-t-lg flex items-center justify-center">
+                    <span className="text-4xl">🖼️</span>
+                  </div>
+                  <CardContent className="p-4">
+                    <h4 className="font-semibold text-white mb-2">Sacred_Circle.jpg</h4>
+                    <p className="text-xs text-white/60 mb-3">Image • 854 KB • Uploaded 3d ago</p>
+                    <div className="flex gap-2">
+                      <Button size="sm" variant="outline" className="text-xs">
+                        <Eye size={12} className="mr-1" />
+                        View
+                      </Button>
+                      <Button size="sm" variant="outline" className="text-xs">
+                        <Download size={12} />
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="mystical-card border-amber-500/30">
+                  <div className="aspect-video bg-amber-500/20 rounded-t-lg flex items-center justify-center">
+                    <span className="text-4xl">📄</span>
+                  </div>
+                  <CardContent className="p-4">
+                    <h4 className="font-semibold text-white mb-2">Ritual_Guide.pdf</h4>
+                    <p className="text-xs text-white/60 mb-3">Document • 1.2 MB • Uploaded 1w ago</p>
+                    <div className="flex gap-2">
+                      <Button size="sm" variant="outline" className="text-xs">
+                        <Eye size={12} className="mr-1" />
+                        Preview
+                      </Button>
+                      <Button size="sm" variant="outline" className="text-xs">
+                        <Download size={12} />
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              <div className="text-center py-8">
+                <p className="text-white/60">
+                  Media library management features will be fully implemented with upload, organization, and CDN integration.
+                </p>
+              </div>
             </TabsContent>
 
             <TabsContent value="analytics" className="space-y-6">

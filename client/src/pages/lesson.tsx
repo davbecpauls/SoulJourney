@@ -1,13 +1,14 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useTheme } from "@/contexts/theme-context";
 import { Navigation } from "@/components/navigation";
+import { InteractiveLessonViewer } from "@/components/interactive-lesson-viewer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowLeft, ArrowRight, CheckCircle, PlayCircle, Headphones, Download, BookOpen, Feather } from "lucide-react";
+import { ArrowLeft, ArrowRight, CheckCircle, PlayCircle, Headphones, Download, BookOpen, Feather, Wand2 } from "lucide-react";
 import { Link } from "wouter";
 import { useState } from "react";
 import { apiRequest } from "@/lib/queryClient";
@@ -36,6 +37,7 @@ export default function LessonPage() {
   const userId = "user-1"; // Mock user ID
   const [journalContent, setJournalContent] = useState("");
   const [notes, setNotes] = useState("");
+  const [useInteractiveViewer, setUseInteractiveViewer] = useState(true);
 
   const { data: lesson, isLoading: lessonLoading } = useQuery<Lesson>({
     queryKey: ['/api/lessons', lessonId],
@@ -46,7 +48,7 @@ export default function LessonPage() {
   });
 
   const updateProgressMutation = useMutation({
-    mutationFn: async (data: { progress: number; completed: boolean; notes?: string }) => {
+    mutationFn: async (data: { progress: number; completed: boolean; notes?: string; interactionData?: any }) => {
       if (userProgress) {
         return apiRequest('PUT', `/api/progress/${userProgress.id}`, data);
       } else {
@@ -115,6 +117,31 @@ export default function LessonPage() {
     });
   };
 
+  const handleInteractiveProgress = (progress: number, data?: any) => {
+    updateProgressMutation.mutate({
+      progress,
+      completed: progress >= 100,
+      notes: notes,
+      interactionData: data
+    });
+  };
+
+  const handleInteractiveComplete = () => {
+    updateProgressMutation.mutate({
+      progress: 100,
+      completed: true,
+      notes: notes
+    });
+  };
+
+  const handleChoiceMade = (choiceId: string, nextLessonId?: string) => {
+    console.log('Choice made:', choiceId, 'Next lesson:', nextLessonId);
+    // In real app, navigate to next lesson if specified
+    if (nextLessonId) {
+      // router.push(`/lesson/${nextLessonId}`);
+    }
+  };
+
   if (lessonLoading) {
     return (
       <div className="min-h-screen mystical-background flex items-center justify-center">
@@ -168,9 +195,20 @@ export default function LessonPage() {
                   Back to Dashboard
                 </Button>
               </Link>
-              <Badge variant={isCompleted ? "default" : "secondary"} className="px-4 py-2">
-                {isCompleted ? 'Completed' : 'In Progress'}
-              </Badge>
+              <div className="flex items-center gap-4">
+                <Button
+                  variant={useInteractiveViewer ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setUseInteractiveViewer(!useInteractiveViewer)}
+                  data-testid="button-toggle-viewer"
+                >
+                  <Wand2 className="mr-2" size={16} />
+                  {useInteractiveViewer ? 'Standard View' : 'Interactive View'}
+                </Button>
+                <Badge variant={isCompleted ? "default" : "secondary"} className="px-4 py-2">
+                  {isCompleted ? 'Completed' : 'In Progress'}
+                </Badge>
+              </div>
             </div>
             
             <h1 className="font-cinzel text-4xl font-bold mb-2 text-golden">{lesson.title}</h1>
@@ -193,9 +231,20 @@ export default function LessonPage() {
             </div>
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-8">
-            {/* Main Content */}
-            <div className="lg:col-span-2 space-y-8">
+          {/* Interactive Lesson Viewer */}
+          {useInteractiveViewer ? (
+            <InteractiveLessonViewer
+              lesson={lesson}
+              userProgress={userProgress}
+              onProgress={handleInteractiveProgress}
+              onComplete={handleInteractiveComplete}
+              onChoiceMade={handleChoiceMade}
+            />
+          ) : (
+            /* Standard Lesson View */
+            <div className="grid lg:grid-cols-3 gap-8">
+              {/* Main Content */}
+              <div className="lg:col-span-2 space-y-8">
               {/* Lesson Content */}
               <Card className="mystical-card border-white/20">
                 <CardContent className="p-8">
@@ -440,6 +489,7 @@ export default function LessonPage() {
               </Card>
             </div>
           </div>
+          )}
         </div>
       </div>
     </div>

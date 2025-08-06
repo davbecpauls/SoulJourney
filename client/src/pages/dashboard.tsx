@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useTheme } from "@/contexts/theme-context";
 import { Navigation } from "@/components/navigation";
+import { VirtualAltar } from "@/components/virtual-altar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
@@ -14,9 +15,10 @@ import {
   Star,
   Zap,
   Compass,
-  ScrollText
+  ScrollText,
+  Sparkles
 } from "lucide-react";
-import type { Realm, UserProgress, Achievement } from "@shared/schema";
+import type { Realm, UserProgress, Achievement, AltarElement } from "@shared/schema";
 
 export default function Dashboard() {
   const { theme } = useTheme();
@@ -122,6 +124,10 @@ export default function Dashboard() {
               <TabsTrigger value="journal" data-testid="tab-journal">
                 <ScrollText className="mr-2" size={16} />
                 {theme === 'child' ? 'Adventure Log' : 'Sacred Journal'}
+              </TabsTrigger>
+              <TabsTrigger value="altar" data-testid="tab-altar">
+                <Sparkles className="mr-2" size={16} />
+                {theme === 'child' ? 'Magic Space' : 'Virtual Altar'}
               </TabsTrigger>
             </TabsList>
 
@@ -247,6 +253,17 @@ export default function Dashboard() {
                   </div>
                 </CardContent>
               </Card>
+            </TabsContent>
+
+            <TabsContent value="altar" className="space-y-6">
+              <VirtualAltar
+                userId="user-1" // Mock user ID
+                userElements={[]} // Would be loaded from API
+                onSave={(elements: AltarElement[]) => {
+                  console.log('Saving altar elements:', elements);
+                  // In real app, save to API
+                }}
+              />
             </TabsContent>
           </Tabs>
         </div>
